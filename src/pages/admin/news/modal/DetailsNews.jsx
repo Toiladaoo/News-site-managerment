@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "../../assets/css/Pages/news/postNew.css";
+import React, { useEffect, useState } from "react";
+import "../../../../assets/css/Pages/news/postNew.css";
 import {
   ArrowCounterClockwise,
   ClosedCaptioning,
@@ -11,25 +11,25 @@ import {
   UploadSimple,
   X,
 } from "phosphor-react";
-import { ICON_SIZE_EXTRA_LARGE } from "../../utils/constraint";
-import DropDown from "../../components/Dropdown/DropDown";
-import { Dropdown } from "../../components";
+import { ICON_SIZE_EXTRA_LARGE } from "../../../../utils/constraint";
+import Dropdown from "../../../../components/Dropdown/DropDown";
 import toast from "react-hot-toast";
-import { insertNews } from "../../services/NewsServices";
+import { getNewsDetail } from "../../../../services/NewsService";
 
-function AddNew({
-  title,
+function DetailsNews({
+  title = data.title,
   setTitle,
-  content,
+  content = data.content,
   setContent,
-  sum,
+  sum = data.sub_content,
   setSum,
-  image,
+  image = null,
   setImage,
-  type,
+  type = "",
   setType,
-  handleClose,
-  getNewsListByAction = function () {},
+  data = {},
+  idDetails,
+  buttonType,
 }) {
   const [isError, setIsError] = useState({
     title: false,
@@ -38,8 +38,9 @@ function AddNew({
     content: false,
     image: false,
   });
+  const [dataDetails, setDataDetails] = useState({});
 
-  const handleSubmitPost = async () => {
+  const handleSubmitPost = () => {
     if (title === "") {
       setIsError({ ...isError, title: true });
       toast.error("Title empty, please enter title ");
@@ -56,22 +57,9 @@ function AddNew({
       setIsError({ ...isError, content: false, image: true });
       toast.error("Image empty, please enter a image ");
     } else {
-      const checkAddNews = await insertNews({
-        title: title,
-        content: content,
-        sub_content: sum,
-        image: image,
-        user_id: "629740e3-1ce1-4005-b9b5-df32841bf1da",
-        news_type_code: type,
-      });
-      if (checkAddNews == 200) {
-        await getNewsListByAction();
-        toast.success("Submit success");
-        handleClose();
-      } else {
-        toast.error("Submit failed");
-      }
+      toast.success("Submit success");
     }
+    console.log(title, content, sum, image, type, image);
   };
 
   const handleImage = async (e) => {
@@ -80,7 +68,7 @@ function AddNew({
   };
 
   const items = [
-    { content: "Business", code: "BS" },
+    { content: "Business", code: "TG" },
     { content: "Entertainment", code: "VH" },
     { content: "General", code: "THS" },
     { content: "Health", code: "KT" },
@@ -88,6 +76,22 @@ function AddNew({
     { content: "Sports", code: "KT" },
     { content: "Technology", code: "KT" },
   ];
+
+  const fetchDetail = async () => {
+    try {
+      const data = await getNewsDetail(idDetails);
+      if (data && data.data != null) {
+        setDataDetails(data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(idDetails);
+    fetchDetail();
+  }, []);
 
   return (
     <div className="add_post_container">
@@ -99,7 +103,7 @@ function AddNew({
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Please enter a title..."
+            placeholder={title || (dataDetails && dataDetails.title)}
           />
         </div>
         <div className="add_subtitle_box">
@@ -107,20 +111,22 @@ function AddNew({
             Summary<span className="required">*</span>
           </p>
           <textarea
-            value={sum}
+            value={sum || (dataDetails && dataDetails.sub_content)}
             onChange={(e) => setSum(e.target.value)}
             className="input_summary"
             id="text"
             name="text"
             rows="3"
             cols="50"
-          ></textarea>
+          >
+            {data.sub_content}
+          </textarea>
           <p className={isError.type ? "warning_empty" : ""}>
             Type <span className="required">*</span>
           </p>
           <Dropdown
-            value={type}
-            setValue={setType}
+            value={type || (dataDetails && dataDetails.news_type_name)}
+            setValue={setType(dataDetails.news_type_name)}
             item={items}
             placeholder="Post type"
           />
@@ -197,11 +203,11 @@ function AddNew({
       </div>
       <div className="add_post_footer">
         <button onClick={handleSubmitPost} className="button button_primary">
-          Submit
+          {buttonType}
         </button>
       </div>
     </div>
   );
 }
 
-export default AddNew;
+export default DetailsNews;
