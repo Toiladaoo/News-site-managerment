@@ -4,9 +4,28 @@ import AddNews from './AddNewsPage';
 import StatusNews from './component/StatusNews';
 import "./component/News.css";
 import { MyTable } from '../../../components/template/table/MyTable/MyTable';
-import { MyButton } from '../../../components';
+import CustomMultiSelect from '../../../components/template/multiselect/CustomMultiSelect/CustomMultiSelect';
 
 function News(props) {
+    let state = [
+        {
+          code: 0,
+          name: "New",
+        },
+        {
+          code: 1,
+          name: "Awaiting approval",
+        },
+        {
+          code: 2,
+          name: "Published",
+        },
+        {
+          code: 3,
+          name: "Removed",
+        },
+       
+      ];
     return (
         <div className='padding-body'>
              <div className="header_of_customer">
@@ -34,7 +53,7 @@ function News(props) {
             </div>
           </div>
           <div className='state_news'>
-            <MyButton text={"Waiting"}/>
+            <CustomMultiSelect  selectList={state}/>
           </div>
             <MyTable/>
         </div>

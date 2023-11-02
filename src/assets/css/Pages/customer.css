@@ -60,7 +60,15 @@
   font-weight: 500;
   border-radius: 5px;
   padding: 10px 36px;
-  margin: 0 10px;
+  cursor: pointer;
+}
+.btnSave:hover,
+.btnAdd:hover,
+.btn_Order:hover {
+  background-color:rgba(96, 132, 239, 0.39) ;
+  color:rgb(8, 83, 235);
+  font-weight: 700;
+
 }
 
 .basic_info_cus {

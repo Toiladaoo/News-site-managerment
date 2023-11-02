@@ -21,7 +21,7 @@ export const ButtonState = ({
   return (
     <MyButton
       text={label}
-      padding="25px 30px"
+      padding="21px 22px"
       margin="5px 0"
       borderRadius="30px"
       callback={callback}

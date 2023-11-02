@@ -9,7 +9,7 @@ export const MyButton = ({
   surfix = null,
   bgColor,
   fontColor = "#3d3d3d",
-  height = "35px",
+  height = "24px",
   width = "80px",
   fontSize = 14,
   borderRadius = 2,
