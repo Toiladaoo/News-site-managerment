@@ -22,6 +22,7 @@ function PostPage(props) {
     setContent("");
     setType("");
     setImage(null);
+    setIsShowAddNew(false);
   };
 
   return (
@@ -55,6 +56,7 @@ function PostPage(props) {
             setImage={setImage}
             type={type}
             setType={setType}
+            setIsShowAddNew={setIsShowAddNew}
           />
         </div>
       )}

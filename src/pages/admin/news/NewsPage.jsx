@@ -35,7 +35,15 @@ function News(props) {
       name: "Removed",
     },
   ];
- 
+
+  const handleClose = () => {
+    setContent("");
+    setSum("");
+    setTitle("");
+    setType("");
+    setImage(null);
+    setIsShowAdd(false);
+  }
 
   return (
     <div className="padding-body">
@@ -56,8 +64,11 @@ function News(props) {
               </div>
 
               <div className="col-4">
-                <div className="feature_of_customer" onClick={() => setIsShowAdd(true)}>
-                  <PostPage  />
+                <div
+                  className="feature_of_customer"
+                  onClick={() => setIsShowAdd(true)}
+                >
+                  <PostPage />
                 </div>
               </div>
             </div>
@@ -70,14 +81,15 @@ function News(props) {
       )}
       {isShowAdd && (
         <>
-         <div
+          <div
             className="go_back_button_container"
             onClick={() => setIsShowAdd(false)}
           >
             <CaretLeft size={ICON_SIZE_BIG} />
           </div>
           <h3>Add news</h3>
-          <AddNew  title={title}
+          <AddNew
+            title={title}
             setTitle={setTitle}
             content={content}
             setContent={setContent}
@@ -86,8 +98,10 @@ function News(props) {
             image={image}
             setImage={setImage}
             type={type}
-            setType={setType} 
-            onClick= {() => setIsShowAdd(false)}/>
+            setType={setType}
+            handleClose={handleClose}
+            onClick={() => setIsShowAdd(false)}
+          />
         </>
       )}
     </div>

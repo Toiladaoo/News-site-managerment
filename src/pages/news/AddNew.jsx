@@ -15,7 +15,7 @@ import { ICON_SIZE_EXTRA_LARGE } from "../../utils/constraint";
 import DropDown from "../../components/Dropdown/DropDown";
 import { Dropdown } from "../../components";
 import toast from "react-hot-toast";
-
+import { insertNews } from "../../services/NewsServices";
 
 function AddNew({
   title,
@@ -28,41 +28,48 @@ function AddNew({
   setImage,
   type,
   setType,
+  handleClose,
 }) {
-  const [isError,setIsError] = useState( {
+  const [isError, setIsError] = useState({
     title: false,
     sum: false,
     type: false,
     content: false,
     image: false,
   });
-  
-  
 
-  
-  
-  
-
-  const handleSubmitPost = () => {
+  const handleSubmitPost = async () => {
     if (title === "") {
-       setIsError({...isError,title: true})
+      setIsError({ ...isError, title: true });
       toast.error("Title empty, please enter title ");
     } else if (sum === "") {
-      setIsError({...isError,title: false,sum :true})
+      setIsError({ ...isError, title: false, sum: true });
       toast.error("Sumary empty, please enter sumary ");
     } else if (type === "") {
-      setIsError({...isError,sum :false,type: true})
+      setIsError({ ...isError, sum: false, type: true });
       toast.error("Type empty, please enter type ");
     } else if (content === "") {
-      setIsError({...isError,type: false,content: true})
+      setIsError({ ...isError, type: false, content: true });
       toast.error("Content empty, please enter content ");
     } else if (image === null) {
-      setIsError({...isError,content: false, image: true})
+      setIsError({ ...isError, content: false, image: true });
       toast.error("Image empty, please enter a image ");
     } else {
-      toast.success("Submit success");
+      const checkAddNews = await insertNews({
+        title: title,
+        content: content,
+        "sub-content": sum,
+        image: image,
+        user_id: "629740e3-1ce1-4005-b9b5-df32841bf1da",
+        news_type_code: type,
+      });
+      if (checkAddNews == 200) {
+        toast.success("Submit success");
+        handleClose();
+      } else {
+        toast.error("Submit failed");
+      }
     }
-    console.log(title, content, sum, image, type, image);
   };
 
   const handleImage = async (e) => {
@@ -71,13 +78,13 @@ function AddNew({
   };
 
   const items = [
-    { content: "Business", code : "TG"  },
+    { content: "Business", code: "BS" },
     { content: "Entertainment", code: "VH" },
-    { content: "General", code: "THS"},
-    { content: "Health",code: "KT" },
-    { content: "Science",code: "KT" },
-    { content: "Sports", code: "KT"},
-    { content: "Technology",code: "KT" },
+    { content: "General", code: "THS" },
+    { content: "Health", code: "KT" },
+    { content: "Science", code: "KT" },
+    { content: "Sports", code: "KT" },
+    { content: "Technology", code: "KT" },
   ];
 
   return (
@@ -115,12 +122,11 @@ function AddNew({
             item={items}
             placeholder="Post type"
           />
-          
         </div>
       </div>
       <div className="add_post_body">
         <div className="add_post_body_main_content">
-          <p className= {isError.content ? "warning_empty" : ""}>
+          <p className={isError.content ? "warning_empty" : ""}>
             Main content<span className="required">*</span>
           </p>
           <div className="tool_bar_container">
@@ -191,7 +197,6 @@ function AddNew({
         <button onClick={handleSubmitPost} className="button button_primary">
           Submit
         </button>
-       
       </div>
     </div>
   );
