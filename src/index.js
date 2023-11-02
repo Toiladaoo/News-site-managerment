@@ -36,6 +36,7 @@ import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
 import ProductType from "./pages/admin/productTyppe/ProductType";
 import CityPage from "./pages/admin/city/CityPage";
+import PostPage from "./pages/news/PostPage";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StaffPage />,
+        element: <PostPage />,
       },
       {
         path: URL_STAFF,
@@ -88,7 +89,7 @@ const router = createBrowserRouter([
       },
       {
         path: URL_PRODUCTTYPE,
-        element: <ProductType/>
+        element: <ProductType />,
       },
       {
         path: URL_VOUCHER_ADD,
@@ -107,7 +108,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
