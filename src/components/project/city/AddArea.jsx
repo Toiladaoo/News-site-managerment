@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../../assets/css/Pages/customer.css";
-import Input from "../../template/Input/Input";
+import Input from "../../template/input/Input";
 import { Radio, X, PlusCircle } from "phosphor-react";
 import toast from "react-hot-toast";
 import { insertArea } from "../../../services/AreaService";

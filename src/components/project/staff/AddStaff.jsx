@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../template/Input/Input";
+import Input from "../../template/input/Input";
 import { insertUser, updateUSer } from "../../../services/UserService";
 import toast from "react-hot-toast";
 
@@ -131,7 +131,8 @@ function AddStaff({
             placeholder={data.phoneNumber || ""}
             pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
           />
-          <small>Format: 090 140 7625</small><br></br>
+          <small>Format: 090 140 7625</small>
+          <br></br>
         </div>
         <div className="col col-6">
           <Input

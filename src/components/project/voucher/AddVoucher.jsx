@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../../template/Input/Input";
+import Input from "../../template/input/Input";
 import toast from "react-hot-toast";
 import { createVoucher, insertVoucher } from "../../../services/VoucherService";
 
@@ -66,7 +66,11 @@ function AddVoucher(props) {
           <Input onChange={handleCostChange} label={"Cost"} />
         </div>
         <div className="col col-6">
-          <Input onChange={handleQuantityChange} label={"Quantity"}  type="number"/>
+          <Input
+            onChange={handleQuantityChange}
+            label={"Quantity"}
+            type="number"
+          />
         </div>
         <div className="col col-6">
           <Input onChange={handlePeriodChange} label={"Period"} />
