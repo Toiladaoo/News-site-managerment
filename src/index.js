@@ -26,6 +26,7 @@ import {
   URL_VOUCHER_ADD,
   URL_PRODUCTTYPE,
   URL_CITY,
+  URL_NEWS
 } from "./utils/constraint";
 
 import Customer from "./pages/admin/customer/Customer";
@@ -36,6 +37,8 @@ import VoucherPage from "./pages/admin/voucher/VoucherPage";
 import AddVoucher from "./components/project/voucher/AddVoucher";
 import ProductType from "./pages/admin/productTyppe/ProductType";
 import CityPage from "./pages/admin/city/CityPage";
+import News from "./pages/admin/news/NewsPage";
+import NewsType from "./pages/admin/news/NewsTypePage";
 
 const router = createBrowserRouter([
   {
@@ -44,60 +47,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <StaffPage />,
+        path: "/",
+        element: <News />,
       },
       {
-        path: URL_STAFF,
-        element: <StaffPage />,
+        path: URL_NEWS,
+        element: <NewsType />,
       },
-      {
-        path: URL_VOUCHER,
-        element: <VoucherPage />,
-      },
-      {
-        path: URL_CITY,
-        element: <CityPage />,
-      },
-      {
-        path: URL_ORDER,
-        element: <OrderPage />,
-      },
-      {
-        path: URL_LOGIN,
-        element: <Login />,
-      },
-      {
-        path: URL_FORGET,
-        element: <Forget />,
-      },
-      {
-        path: URL_REGISTER,
-        element: <Register />,
-      },
-      {
-        path: URL_BRANCH,
-        element: <Branch />,
-      },
-      {
-        path: "/customer/account",
-        element: <Customer />,
-      },
-      {
-        path: "/customer/add",
-        element: <AddCustomer />,
-      },
-      {
-        path: URL_PRODUCTTYPE,
-        element: <ProductType/>
-      },
-      {
-        path: URL_VOUCHER_ADD,
-        element: <AddVoucher />,
-      },
-      {
-        path: "/statusbutton",
-        element: <StatusButton />,
-      },
+      
     ],
   },
 ]);

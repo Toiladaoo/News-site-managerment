@@ -16,6 +16,8 @@ import {
   Graph,
   Wallet,
   Archive,
+  Newspaper,
+  ArticleMedium
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -26,6 +28,7 @@ import {
   URL_VOUCHER,
   URL_PRODUCTTYPE,
   URL_CITY,
+  URL_NEWS
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
@@ -57,48 +60,18 @@ function App() {
       },
     },
     {
-      icon: <ShoppingBag size={ICON_SIZE_BIG} />,
-      label: "Customer",
-      link: URL_CUSTOMER,
+      icon: <ArticleMedium size={ICON_SIZE_BIG} />,
+      label: "News",
+      link: "/",
       position: "body",
     },
     {
-      icon: <ListNumbers size={ICON_SIZE_BIG} />,
-      label: "Order",
-      link: URL_ORDER,
+      icon: <Newspaper size={ICON_SIZE_BIG} />,
+      label: "News Type",
+      link: URL_NEWS,
       position: "body",
     },
-    {
-      icon: <UsersFour size={ICON_SIZE_BIG} />,
-      label: "Employee",
-      link: URL_STAFF,
-      position: "body",
-    },
-    {
-      icon: <Graph size={ICON_SIZE_BIG} />,
-      label: "City",
-      link: URL_CITY,
-      position: "body",
-    },
-    {
-      icon: <Graph size={ICON_SIZE_BIG} />,
-      label: "Branch",
-      link: URL_BRANCH,
-      position: "body",
-    },
-    {
-      icon: <Wallet size={ICON_SIZE_BIG} />,
-      label: "Voucher",
-      link: URL_VOUCHER,
-      position: "body",
-    },
-   
-    {
-      icon: <Archive size={ICON_SIZE_BIG} />,
-      label: "Product Type",
-      link: URL_PRODUCTTYPE,
-      position: "body",
-    },
+    
     {
       icon: <GearSix size={ICON_SIZE_BIG} />,
       label: "Setting",

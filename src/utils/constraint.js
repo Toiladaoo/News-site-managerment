@@ -13,6 +13,7 @@ export const URL_REGISTER = "/register";
 export const URL_FORGET = "/forget";
 export const URL_BRANCH = "/branch";
 export const URL_PRODUCTTYPE = "/productTyppe";
+export const URL_NEWS = "/news/type"
 
 /* API */
 export const URL_GET_STAFF = "/api/user/staff";
