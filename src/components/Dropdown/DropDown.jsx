@@ -14,6 +14,8 @@ function DropDown({
   textColor = "#000",
   margin = "0",
   placeholder = "",
+  value ="",
+  setValue = function (v) {},
 }) {
   const [isShowDropDown, setIsShowDropDown] = useState(false);
   const [itemSelect, setItemSelect] = useState(placeholder);
@@ -25,9 +27,11 @@ function DropDown({
     setIsShowDropDown(false);
   };
 
-  const handleSelectItem = async (e) => {
-    await setItemSelect(e);
+  const handleSelectItem = async (code, content) => {
+    console.log(code,content);
+    await setItemSelect(code);
     await setIsShowDropDown(false);
+    await setValue(content);
   };
 
   return (
@@ -51,36 +55,35 @@ function DropDown({
         <span className="dropdown_icon">
           <CaretDown size={ICON_SIZE_BIG} />
         </span>
-        {item.length > 0 &&
-          isShowDropDown && (
-            <div className="dropdown_content">
-              {isShowSearchField && (
-                <input
-                  className="dropdown_input"
-                  placeholder="Enter your field"
-                />
-              )}
-              <ul className="dropdown_list">
-                {item.map((item, index) => {
-                  return (
-                    <li key={index} className="dropdown_item">
-                      <button
-                        className={
-                          item.content == itemSelect
-                            ? "font-weight-b active"
-                            : "font-weight-b"
-                        }
-                        value={item.content}
-                        onClick={(e) => handleSelectItem(e.target.value)}
-                      >
-                        {item.content}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
+        {item.length > 0 && isShowDropDown && (
+          <div className="dropdown_content">
+            {isShowSearchField && (
+              <input
+                className="dropdown_input"
+                placeholder="Enter your field"
+              />
+            )}
+            <ul className="dropdown_list">
+              {item.map((item, index) => {
+                return (
+                  <li key={index} className="dropdown_item">
+                    <button
+                      className={
+                        item.content == itemSelect
+                          ? "font-weight-b active"
+                          : "font-weight-b"
+                      }
+                      value={item.code}
+                      onClick={() => handleSelectItem(item.content,item.code)}
+                    >
+                      {item.content}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </div>
       {item.length > 0 && isShowDropDown && (
         <div onClick={handleCloseModal} className="overlay"></div>

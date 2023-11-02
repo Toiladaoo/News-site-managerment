@@ -39,6 +39,7 @@ import ProductType from "./pages/admin/productTyppe/ProductType";
 import CityPage from "./pages/admin/city/CityPage";
 import News from "./pages/admin/news/NewsPage";
 import NewsType from "./pages/admin/news/NewsTypePage";
+import PostPage from "./pages/news/PostPage";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
         path: URL_NEWS,
         element: <NewsType />,
       },
+      {
+        path: "/post",
+        element: <PostPage />,
+      },
       
     ],
   },
@@ -64,7 +69,7 @@ root.render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
