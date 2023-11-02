@@ -43,7 +43,7 @@ export const MyTable = ({
           <div className="col text-end">{headerAction}</div>
         </div>
         <Toolkit selectedList={select} deleteCallback={deleteCallback} />
-        {list.length === 0 ? (
+        {list && list.length === 0 ? (
           <div className="center">
             <p>No data to display.</p>
           </div>
@@ -56,7 +56,7 @@ export const MyTable = ({
               cellContentCenter={false}
             />
 
-            {list.length > 0 &&
+            {list &&
               list.map((e, index) => (
                 <MyTableRow
                   callback={handleActionButtons}

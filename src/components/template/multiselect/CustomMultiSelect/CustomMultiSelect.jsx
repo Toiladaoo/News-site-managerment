@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { ButtonState } from "./ButtonState";
 
-export default function CustomMultiSelect({ selectList = [] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+export default function CustomMultiSelect({
+  selectList = [],
+  onSelected,
+  activeIndex,
+}) {
+  // const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className="flex flex-wrap gap-2 mb-3">
@@ -10,7 +14,7 @@ export default function CustomMultiSelect({ selectList = [] }) {
         selectList.map((e, index) => (
           <span className="mx-1">
             <ButtonState
-              callback={() => setActiveIndex(index)}
+              callback={() => onSelected(index)}
               className="p-button-text"
               label={e.name}
               hoverColor="var(--primary-color)"
