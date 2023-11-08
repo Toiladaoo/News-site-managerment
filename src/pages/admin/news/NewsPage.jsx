@@ -88,6 +88,7 @@ function News(props) {
       let res = await getNewsListByAction(activeIndex);
 
       if (res.status === 200) {
+        console.log(res.data);
         setList(res.data);
       }
     } catch (e) {
@@ -146,7 +147,7 @@ function News(props) {
   useEffect(() => {
     getNewsData();
     getActionData();
-  }, [activeIndex]);
+  }, [activeIndex],[isShowAdd]);
 
   return (
     <div className="padding-body">
@@ -158,7 +159,7 @@ function News(props) {
                 <div className="header_bar_left_Cus ">
                   <div className="title_total_number_Cus">
                     <h3 className="title_Cus">News List </h3>
-                    <p className="total_number_Cus">10</p>
+                    <p className="total_number_Cus">{list.length}</p>
                   </div>
                   <p className="introduce_Cus">
                     View, add, edit and delete your news details.{" "}

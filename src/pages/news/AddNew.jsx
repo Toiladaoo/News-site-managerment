@@ -61,7 +61,7 @@ function AddNew({
         content: content,
         sub_content: sum,
         image: image,
-        user_id: "629740e3-1ce1-4005-b9b5-df32841bf1da",
+        user_id: "2e0f2a9f-7786-4f94-bb5e-129eb2c79cb5",
         news_type_code: type,
       });
       if (checkAddNews == 200) {
