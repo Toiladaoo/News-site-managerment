@@ -14,22 +14,18 @@ import {
 import { ICON_SIZE_EXTRA_LARGE } from "../../../../utils/constraint";
 import Dropdown from "../../../../components/Dropdown/DropDown";
 import toast from "react-hot-toast";
-import { getNewsDetail } from "../../../../services/NewsService";
+import {
+  getNewsDetail,
+  getNewsTypeDropdownData,
+  setAction,
+} from "../../../../services/NewsService";
+import { MyButton } from "../../../../components";
 
 function DetailsNews({
-  title = data.title,
-  setTitle,
-  content = data.content,
-  setContent,
-  sum = data.sub_content,
-  setSum,
-  image = null,
-  setImage,
-  type = "",
-  setType,
-  data = {},
-  idDetails,
+  newsSelected = {},
   buttonType,
+  isAdmin = false,
+  handleClose = function () {},
 }) {
   const [isError, setIsError] = useState({
     title: false,
@@ -39,6 +35,13 @@ function DetailsNews({
     image: false,
   });
   const [dataDetails, setDataDetails] = useState({});
+  const [items, setItems] = useState([]);
+
+  const [title, setTitle] = useState("");
+  const [sum, setSum] = useState("");
+  const [content, setContent] = useState("");
+  const [type, setType] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleSubmitPost = () => {
     if (title === "") {
@@ -62,26 +65,64 @@ function DetailsNews({
     console.log(title, content, sum, image, type, image);
   };
 
+  const handleActionButtons = async (type) => {
+    let res = null;
+    switch (type) {
+      case "decline": {
+        res = await setAction(newsSelected.ID, "2");
+
+        if (res.status === 200) {
+          toast.success("News has been declined successfully");
+          return;
+        }
+        break;
+      }
+      case "confirm": {
+        res = await setAction(newsSelected.ID, "1");
+
+        if (res.status === 200) {
+          toast.success("News has been confirm successfully");
+          return;
+        }
+        break;
+      }
+      default:
+        break;
+    }
+
+    toast.error("Something went wrong");
+    handleClose();
+  };
+
   const handleImage = async (e) => {
     console.log(URL.createObjectURL(e.target.files[0]));
     await setImage(() => URL.createObjectURL(e.target.files[0]));
   };
 
-  const items = [
-    { content: "Business", code: "TG" },
-    { content: "Entertainment", code: "VH" },
-    { content: "General", code: "THS" },
-    { content: "Health", code: "KT" },
-    { content: "Science", code: "KT" },
-    { content: "Sports", code: "KT" },
-    { content: "Technology", code: "KT" },
-  ];
+  const getNewsType = async () => {
+    try {
+      let res = await getNewsTypeDropdownData();
+      if (res.status === 200) {
+        console.log(res.data);
+        setItems(res.data);
+      }
+    } catch (e) {
+      console.log(e.message);
+      toast.error("Server went wrong");
+    }
+  };
 
   const fetchDetail = async () => {
     try {
-      const data = await getNewsDetail(idDetails);
-      if (data && data.data != null) {
+      const data = await getNewsDetail(newsSelected.ID);
+      if (data.status === 200) {
         setDataDetails(data.data);
+
+        setContent(data.data.content);
+        setTitle(data.data.title);
+        setType(data.data.type);
+        setSum(data.data.sub_content);
+        setImage(data.data.image);
       }
     } catch (error) {
       console.log(error);
@@ -89,8 +130,8 @@ function DetailsNews({
   };
 
   useEffect(() => {
-    console.log(idDetails);
     fetchDetail();
+    getNewsType();
   }, []);
 
   return (
@@ -119,14 +160,14 @@ function DetailsNews({
             rows="3"
             cols="50"
           >
-            {data.sub_content}
+            {dataDetails.sub_content}
           </textarea>
           <p className={isError.type ? "warning_empty" : ""}>
             Type <span className="required">*</span>
           </p>
           <Dropdown
-            value={type || (dataDetails && dataDetails.news_type_name)}
-            setValue={setType(dataDetails.news_type_name)}
+            value={newsSelected.type ?? type}
+            setValue={setType}
             item={items}
             placeholder="Post type"
           />
@@ -201,10 +242,38 @@ function DetailsNews({
           </div>
         </div>
       </div>
-      <div className="add_post_footer">
-        <button onClick={handleSubmitPost} className="button button_primary">
-          {buttonType}
-        </button>
+      <p>
+        * After confirm this article, you cannot edit or delete it. Article just
+        can be hide from website and save permanently in database.
+      </p>
+      <div className="add_post_footer w-100">
+        {isAdmin ? (
+          <div className="">
+            <MyButton
+              text={"Decline"}
+              height={"50px"}
+              width={"20em"}
+              bgColor={"var(--color-error)"}
+              fontColor={"var(--text-white)"}
+              margin={"0 10px"}
+              callback={() => handleActionButtons("decline")}
+            />
+            {dataDetails.action_code === "0" && (
+              <MyButton
+                text={"Comfirm"}
+                height={"50px"}
+                width={"20em"}
+                bgColor={"var(--primary-color)"}
+                fontColor={"var(--text-white)"}
+                callback={() => handleActionButtons("confirm")}
+              />
+            )}
+          </div>
+        ) : (
+          <button onClick={handleSubmitPost} className="button button_primary">
+            {buttonType}
+          </button>
+        )}
       </div>
     </div>
   );

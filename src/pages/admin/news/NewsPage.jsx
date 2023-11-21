@@ -17,6 +17,7 @@ import tableSlice from "../../../features/table/tableSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { tableSelector } from "../../../selectors/consumerSelector";
 import DetailsNews from "./modal/DetailsNews";
+import { NewsTableFromJson } from "../../../utils/handleData";
 function News(props) {
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [isShowAddNew, setIsShowAddNew] = useState(false);
@@ -33,7 +34,7 @@ function News(props) {
     },
     {
       code: 1,
-      name: "Awaiting approval",
+      name: "Waiting approval",
     },
     {
       code: 2,
@@ -56,7 +57,7 @@ function News(props) {
   const [list, setList] = useState([]);
   const [actionList, setActionList] = useState([]);
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState("0");
 
   const [dataSelected, setDataSelected] = useState({});
   const [isShowDetail, setIsShowDetail] = useState(false);
@@ -64,31 +65,14 @@ function News(props) {
   const tableData = useSelector(tableSelector);
   const dispatch = useDispatch();
 
-  // let state = [
-  //   {
-  //     code: 0,
-  //     name: "New",
-  //   },
-  //   {
-  //     code: 1,
-  //     name: "Awaiting approval",
-  //   },
-  //   {
-  //     code: 2,
-  //     name: "Published",
-  //   },
-  //   {
-  //     code: 3,
-  //     name: "Removed",
-  //   },
-  // ];
-
   const getNewsData = async () => {
     try {
       let res = await getNewsListByAction(activeIndex);
-
       if (res.status === 200) {
-        setList(res.data);
+        setList([]);
+        for (let i = 0; i < res.data.length; i++) {
+          setList((list) => [...list, NewsTableFromJson(res.data[i])]);
+        }
       }
     } catch (e) {
       console.log(e.message);
@@ -146,7 +130,11 @@ function News(props) {
   useEffect(() => {
     getNewsData();
     getActionData();
-  }, [activeIndex]);
+
+    return () => {
+      setList([]);
+    };
+  }, [activeIndex, isShowDetail, isShowAdd]);
 
   return (
     <div className="padding-body">
@@ -202,20 +190,12 @@ function News(props) {
           </div>
           <h3>View news</h3>
           <DetailsNews
-            title={title}
-            setTitle={setTitle}
-            content={content}
-            setContent={setContent}
-            sum={sum}
-            setSum={setSum}
-            image={image}
-            setImage={setImage}
-            type={type}
-            setType={setType}
-            idDetails={dataSelected.id}
             onClick={() => setIsShowDetail(false)}
-            handleClose={handleClose}
+            handleClose={handleCloseDetail}
             buttonType="Save"
+            newsSelected={dataSelected}
+            //change this when making login data saving
+            isAdmin={true}
           />
         </>
       )}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/css/Pages/news/postNew.css";
 import {
   ArrowCounterClockwise,
@@ -16,6 +16,11 @@ import DropDown from "../../components/Dropdown/DropDown";
 import { Dropdown } from "../../components";
 import toast from "react-hot-toast";
 import { insertNews } from "../../services/NewsServices";
+import {
+  getNewsListByAction,
+  getNewsTypeDropdownData,
+} from "../../services/NewsService";
+import { NewsTableFromJson } from "../../utils/handleData";
 
 function AddNew({
   title,
@@ -39,6 +44,8 @@ function AddNew({
     image: false,
   });
 
+  const [items, setItems] = useState([]);
+
   const handleSubmitPost = async () => {
     if (title === "") {
       setIsError({ ...isError, title: true });
@@ -61,7 +68,7 @@ function AddNew({
         content: content,
         sub_content: sum,
         image: image,
-        user_id: "629740e3-1ce1-4005-b9b5-df32841bf1da",
+        user_id: "67c49b53-01fc-4f2b-93d8-585ca650e962",
         news_type_code: type,
       });
       if (checkAddNews == 200) {
@@ -79,15 +86,35 @@ function AddNew({
     await setImage(() => URL.createObjectURL(e.target.files[0]));
   };
 
-  const items = [
-    { content: "Business", code: "BS" },
-    { content: "Entertainment", code: "VH" },
-    { content: "General", code: "THS" },
-    { content: "Health", code: "KT" },
-    { content: "Science", code: "KT" },
-    { content: "Sports", code: "KT" },
-    { content: "Technology", code: "KT" },
-  ];
+  const getNewsType = async () => {
+    try {
+      let res = await getNewsTypeDropdownData();
+      if (res.status === 200) {
+        console.log(res.data);
+        setItems(res.data);
+      }
+    } catch (e) {
+      console.log(e.message);
+      toast.error("Server went wrong");
+    }
+  };
+
+  // const items = [
+  //   { content: "Business", code: "BS" },
+  //   { content: "Entertainment", code: "VH" },
+  //   { content: "General", code: "THS" },
+  //   { content: "Health", code: "KT" },
+  //   { content: "Science", code: "KT" },
+  //   { content: "Sports", code: "KT" },
+  //   { content: "Technology", code: "KT" },
+  // ];
+
+  useEffect(() => {
+    getNewsType();
+    return () => {
+      setItems([]);
+    };
+  }, []);
 
   return (
     <div className="add_post_container">

@@ -17,7 +17,7 @@ import {
   Wallet,
   Archive,
   Newspaper,
-  ArticleMedium
+  ArticleMedium,
 } from "phosphor-react";
 import {
   ICON_SIZE_BIG,
@@ -28,7 +28,7 @@ import {
   URL_VOUCHER,
   URL_PRODUCTTYPE,
   URL_CITY,
-  URL_NEWS
+  URL_NEWS,
 } from "./utils/constraint";
 import { StaffPage } from "./pages/admin/staff/StaffPage";
 import { Sidebar, AdminHeader } from "./components/index";
@@ -46,7 +46,7 @@ function App() {
     {
       icon: <BellSimple size={ICON_SIZE_BIG} />,
       label: "Activity",
-      link: URL_CUSTOMER,
+      link: URL_NEWS,
       position: "header",
       option: {
         count: 10,
@@ -71,7 +71,7 @@ function App() {
       link: URL_NEWS,
       position: "body",
     },
-    
+
     {
       icon: <GearSix size={ICON_SIZE_BIG} />,
       label: "Setting",

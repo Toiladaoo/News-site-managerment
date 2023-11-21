@@ -14,13 +14,13 @@ export default function CustomMultiSelect({
         selectList.map((e, index) => (
           <span className="mx-1">
             <ButtonState
-              callback={() => onSelected(index)}
+              callback={() => onSelected(e.code)}
               className="p-button-text"
               label={e.name}
               hoverColor="var(--primary-color)"
               bgColor="var(--text-white)"
               fontColor="var(--primary-color)"
-              selected={activeIndex === index}
+              selected={activeIndex === e.code}
             />
           </span>
         ))}
